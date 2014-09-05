@@ -1,0 +1,69 @@
+= simple_form_for @user_form, :html => { :multipart => true }, defaults: { required: false} do |f|
+  - if @user_form.errors.any?
+    %ul.error-messages.text-danger
+      - @user_form.errors.full_messages.each do |error|
+        %li= error
+
+  = f.input :name, label: 'User name'
+
+  - if @user_form.user.avatar.exists?
+    = image_tag @user_form.user.avatar.url(:thumb)
+  = f.input :avatar, as: :file
+
+  .row
+    .col-lg-9
+      = f.simple_fields_for :dependent_users do |du|
+        .row
+          = du.input :id, as: :hidden
+          .col-lg-3
+            = du.input :name, label: 'Dependent user name'
+          .col-lg-3
+            = du.input :date_birth, label: 'Dependent user date birth', as: :string
+          .col-lg-3
+            = link_to 'Add', 'javascript:void(0)', class: 'btn btn-info plus-btn'
+            = link_to 'Remove', 'javascript:void(0)', class: 'btn btn-danger minus-btn'
+        
+        /= du.input :date_birth, label: 'Dependent user date birth', as: :string, input_html: {value: du.object.date_birth.present? ? du.object.date_birth.strftime("%d/%m/%y") : nil}
+
+  .row
+    .col-lg-9
+      = f.simple_fields_for :tasks do |ta|
+        .row
+          = ta.input :id, as: :hidden
+          .col-lg-4
+            = ta.input :name, label: 'Task name', wrapper_html: { class: ta.object.error_message.present? ? "has-error" : ''} do
+              = ta.input_field :name, class: 'form-control'
+              %span.help-block
+                = ta.object.error_message
+          .col-lg-3
+            = link_to 'Add', 'javascript:void(0)', class: 'btn btn-info plus-btn'
+            = link_to 'Remove', 'javascript:void(0)', class: 'btn btn-danger minus-btn'
+
+  .row
+    .col-lg-9
+      = f.simple_fields_for :address do |ad|
+        .row
+          = ad.input :id, as: :hidden
+          .col-lg-3
+            = ad.input :street, label: 'Street'
+          .col-lg-3
+            = ad.input :district, label: 'District'
+  .row
+    .col-lg-9
+      = f.simple_fields_for :company do |co|
+        .row
+          = co.input :id, as: :hidden
+          .col-lg-3
+            = co.input :name, label: 'Company name'
+          .col-lg-3
+            = co.input :website, label: 'Company website'
+      
+      = f.simple_fields_for :family do |fa|
+        .row
+          = fa.input :id, as: :hidden
+          .col-lg-5
+            = fa.input :last_name, label: 'Family last name'
+
+  .form-actions
+    = f.button :submit, :class => 'btn-primary', value: 'Save User'
+    = link_to 'Back', users_path, class: 'btn btn-default'

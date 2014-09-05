@@ -1,0 +1,17 @@
+%h1 Users
+
+%table.table.table-striped.table-hover
+  %thead
+    %tr
+      %th
+        ID
+      %th
+        User name
+      %th
+        Actions
+  %tbody
+    - @users.each do |user|
+      = render partial: 'user', locals: {user: user}
+
+.form-actions
+  = link_to 'New User', new_user_path, class: 'btn btn-primary'
