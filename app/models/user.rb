@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
-  belongs_to :company
-  belongs_to :my_family, class_name: 'Family'
+  belongs_to :company, dependent: :destroy
+  belongs_to :my_family, class_name: 'Family', dependent: :destroy
 
   has_one :address, dependent: :destroy
 
