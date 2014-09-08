@@ -3,7 +3,7 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.string :name
       t.references :company, index: true
-      t.references :family, index: true
+      t.references :my_family, index: true
 
       t.timestamps
     end

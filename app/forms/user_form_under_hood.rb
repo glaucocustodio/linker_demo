@@ -1,6 +1,6 @@
 # This class show us what Linker gem is going to do 
 # under the hood via metaprogramming
-class UsersForm
+class UserForm
   
   include ActiveModel::Model
   

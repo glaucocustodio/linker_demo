@@ -1,10 +1,10 @@
-class UsersForm
+class UserForm
   include Linker
  
   main_model User
 
   validates  :name, presence: true
-  validate   :check_tasks
+  #validate   :check_tasks
   
   private 
     def check_tasks

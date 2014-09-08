@@ -37,18 +37,18 @@ class UsersController < ApplicationController
   private
     def set_users_form
       if params[:id].present?
-        @user_form = UsersForm.new(User.find params[:id])
+        @user_form = UserForm.new(User.find params[:id])
       else
-        @user_form = UsersForm.new(User.new)
+        @user_form = UserForm.new(User.new)
       end
     end
 
     def users_form_params
       params.require(:user).permit(:name, :avatar,
-                                         company_attributes: [:id, :name, :website],
-                                         family_attributes: [:id, :last_name],
-                                         address_attributes: [:id, :street, :district],
-                                         tasks_attributes: [[:id, :name]],
-                                         dependent_users_attributes: [[:id, :name, :date_birth]])
+                                   company_attributes: [:id, :name, :website],
+                                   my_family_attributes: [:id, :last_name],
+                                   address_attributes: [:id, :street, :district],
+                                   tasks_attributes: [[:id, :name]],
+                                   dependent_users_attributes: [[:id, :name, :date_birth]])
     end
 end

@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20140901204947) do
   create_table "users", force: true do |t|
     t.string   "name"
     t.integer  "company_id"
-    t.integer  "family_id"
+    t.integer  "my_family_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "avatar_file_name"
@@ -71,6 +71,6 @@ ActiveRecord::Schema.define(version: 20140901204947) do
   end
 
   add_index "users", ["company_id"], name: "index_users_on_company_id", using: :btree
-  add_index "users", ["family_id"], name: "index_users_on_family_id", using: :btree
+  add_index "users", ["my_family_id"], name: "index_users_on_my_family_id", using: :btree
 
 end
