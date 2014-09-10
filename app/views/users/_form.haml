@@ -10,7 +10,7 @@
     = image_tag @user_form.user.avatar.url(:thumb)
   = f.input :avatar, as: :file
 
-  = f.input :profile_list, as: :select, collection: UserForm::PROFILES
+  = f.input :profile_list, as: :select, collection: UserForm::PROFILES, label: 'Profile'
 
   .row
     .col-lg-9
@@ -21,9 +21,12 @@
             = du.input :name, label: 'Dependent user name'
           .col-lg-3
             = du.input :date_birth, label: 'Dependent user date birth', as: :string
-          .col-lg-3
-            = link_to 'Add', 'javascript:void(0)', class: 'btn btn-info plus-btn'
-            = link_to 'Remove', 'javascript:void(0)', class: 'btn btn-danger minus-btn'
+          .col-lg-6
+            .col-lg-2
+              = link_to 'Add', 'javascript:void(0)', class: 'btn btn-info plus-btn'
+            - if du.object.persisted?
+              .col-lg-4
+                = du.input :_remove, as: :boolean, wrapper: :checkboxes, label: 'Remove'
         
         /= du.input :date_birth, label: 'Dependent user date birth', as: :string, input_html: {value: du.object.date_birth.present? ? du.object.date_birth.strftime("%d/%m/%y") : nil}
 
@@ -37,9 +40,12 @@
               = ta.input_field :name, class: 'form-control'
               %span.help-block
                 = ta.object.error_message
-          .col-lg-3
-            = link_to 'Add', 'javascript:void(0)', class: 'btn btn-info plus-btn'
-            = link_to 'Remove', 'javascript:void(0)', class: 'btn btn-danger minus-btn'
+          .col-lg-6
+            .col-lg-2
+              = link_to 'Add', 'javascript:void(0)', class: 'btn btn-info plus-btn'
+            - if ta.object.persisted?
+              .col-lg-4
+                = ta.input :_remove, as: :boolean, wrapper: :checkboxes, label: 'Remove'
 
   .row
     .col-lg-9

@@ -32,9 +32,4 @@ $(function(){
 
     return false;
   });
-
-  $('body').on('click', '.minus-btn', function(){
-    $(this).parents('.row:first').remove()
-    return false;
-  });
 });

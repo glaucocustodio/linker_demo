@@ -1,9 +1,8 @@
 # This class show us what Linker gem is going to do 
 # under the hood via metaprogramming
 class UserUnderHoodForm
-  
   include ActiveModel::Model
-  
+
   attr_reader :user
 
   delegate :name, :name=, :avatar, :avatar=, to: :user
@@ -70,9 +69,6 @@ class UserUnderHoodForm
   end
 
   def params= params
-    @user.dependent_users.destroy_all if !params.key?('dependent_users_attributes')
-    @user.tasks.destroy_all           if !params.key?('tasks_attributes')
-    
     params.each do |param, value|
       if value.is_a?(Hash)
         table = param.gsub(%r{_attributes$}, '')
@@ -94,20 +90,26 @@ class UserUnderHoodForm
 
         # has_many attrs
         else
-          ids = value.map.with_index{|c,i| c.last['id'].present? ? c.last['id'] : nil }.compact
-          @user.send(table).where(["#{@user.send(table).table.name}.id NOT IN (?)", ids]).destroy_all if ids.present?
+          ids_to_remove = value.map{|c| c.last['id'] if c.last['id'].present? && c.last.key?('_remove') && c.last['_remove'] == '1' }.compact
+
+          if ids_to_remove.present?
+            r = search_has_many(table)
+            r[:klass].constantize.send(:where, ["#{r[:klass].constantize.table_name}.id IN (?)", ids_to_remove]).destroy_all
+            value.delete_if{|i, c| ids_to_remove.include?(c['id']) }
+          end
+
           value.each do |c|
             if c.last['id'].present?
-              @user.send(table).find(c.last['id']).update_attributes(c.last)
+              @user.send(table).find(c.last['id']).update_attributes(c.last.except('_remove'))
             else
-              @user.send(table).send(:build, c.last)
+              @user.send(table).send(:build, c.last.except('_remove'))
             end
           end
         end
       elsif param.match(/_list$/)
         assoc = param.gsub(/_list$/, '')
-        if search_has_one(assoc)
-          final = value.present? ? assoc.camelize.constantize.send(:find, value) : nil
+        if r = search_has_one(assoc)
+          final = value.present? ? r[:klass].constantize.send(:find, value) : nil
           @user.send("#{assoc}=", final)
         end
       else
@@ -135,8 +137,26 @@ class UserUnderHoodForm
       end
     end
 
+    def search_has_many name
+      s = User.reflect_on_all_associations(:has_many).inject([]) do |t, c| 
+        t << {
+          name: c.name.to_s, 
+          klass: c.klass.name,
+        }
+      end
+      .detect{|c| c[:name] == name}
+      s.present? && s
+    end
+
     def search_has_one name
-      User.reflect_on_all_associations(:has_one).map{|c| c.name.to_s}.select{|c| c == name}.present?
+      s = User.reflect_on_all_associations(:has_one).inject([]) do |t, c| 
+        t << {
+          name: c.name.to_s, 
+          klass: c.klass.name,
+        }
+      end
+      .detect{|c| c[:name] == name}
+      s.present? && s
     end
   
 end

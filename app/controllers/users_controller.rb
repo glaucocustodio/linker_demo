@@ -49,7 +49,7 @@ class UsersController < ApplicationController
                                    company_attributes: [:id, :name, :website],
                                    my_family_attributes: [:id, :last_name],
                                    address_attributes: [:id, :street, :district],
-                                   tasks_attributes: [[:id, :name]],
-                                   dependent_users_attributes: [[:id, :name, :date_birth]])
+                                   tasks_attributes: [[:id, :name, :_remove]],
+                                   dependent_users_attributes: [[:id, :name, :date_birth, :_remove]])
     end
 end

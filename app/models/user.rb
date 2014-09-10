@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   belongs_to :my_family, class_name: 'Family', dependent: :destroy
 
   has_one :address, dependent: :destroy
-  has_one :profile
+  has_one :profile, class_name: 'Profile'
 
   has_many :dependent_users, -> { order(id: :asc) }, dependent: :destroy
   has_many :tasks, -> { order(id: :asc) }, dependent: :destroy

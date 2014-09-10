@@ -50,13 +50,13 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'linker', '~> 0.0.4'
+gem 'linker', '~> 0.0.6'
 # path: '~/Projects/linker'
 
 # Bootstrap 3
 gem 'bootstrap-sass', '~> 3.2.0'
 
-gem 'simple_form', '~> 3.1.0.rc2'
+gem 'simple_form', '~> 3.0.2'
 
 gem "paperclip", "~> 4.2"
 
