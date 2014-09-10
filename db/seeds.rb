@@ -5,3 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+Profile.create(profile_type: 'A')
+
+Profile.create(profile_type: 'B')
+
+Profile.create(profile_type: 'C')

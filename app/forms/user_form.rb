@@ -6,6 +6,8 @@ class UserForm
   validates  :name, presence: true
   #validate   :check_tasks
   
+  PROFILES = Profile.all.map{|c| [c.profile_type, c.id]}
+
   private 
     def check_tasks
       self.user.tasks.each do |c|

@@ -10,6 +10,8 @@
     = image_tag @user_form.user.avatar.url(:thumb)
   = f.input :avatar, as: :file
 
+  = f.input :profile_list, as: :select, collection: UserForm::PROFILES
+
   .row
     .col-lg-9
       = f.simple_fields_for :dependent_users do |du|

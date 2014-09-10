@@ -45,6 +45,7 @@ class UsersController < ApplicationController
 
     def users_form_params
       params.require(:user).permit(:name, :avatar,
+                                   :profile_list,
                                    company_attributes: [:id, :name, :website],
                                    my_family_attributes: [:id, :last_name],
                                    address_attributes: [:id, :street, :district],
