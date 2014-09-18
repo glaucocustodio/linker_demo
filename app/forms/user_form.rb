@@ -3,7 +3,8 @@ class UserForm
  
   main_model User
 
-  validates  :name, presence: true
+  validates  :name, :address__street, :company__name, presence: true
+
   #validate   :check_tasks
   
   PROFILES = Profile.all.map{|c| [c.profile_type, c.id]}

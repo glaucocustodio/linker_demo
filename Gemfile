@@ -50,7 +50,7 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'linker', '~> 0.0.6'
+gem 'linker', '~> 0.0.9'
 # path: '~/Projects/linker'
 
 # Bootstrap 3
